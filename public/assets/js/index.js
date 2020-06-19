@@ -69,11 +69,14 @@ const handleNoteDelete = function (event) {
 
   const note = $(this).parent(".list-group-item").data();
   console.log(note);
+
   if (activeNote.id === note.id) {
     activeNote = {};
   }
 
   deleteNote(note.id).then(() => {
+    //note.empty();
+
     $(this).parent(".list-group-item").hide();
 
     getAndRenderNotes();
@@ -112,7 +115,7 @@ const renderNoteList = (notes) => {
 
   // Returns jquery object for li with given text and delete button
   // unless withDeleteButton argument is provided as false
-  const create$li = (text, withDeleteButton = true) => {
+  const create$li = (text, id, withDeleteButton = true) => {
     const $li = $("<li class='list-group-item' id='" + id + "'>");
     const $span = $("<span>").text(text);
     $li.append($span);

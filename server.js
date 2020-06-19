@@ -9,7 +9,7 @@ var fs = require("fs");
 
 // set up the express app
 var app = express();
-var PORT = process.env.PORT || 4041;
+var PORT = process.env.PORT || 3000;
 
 // set up express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -35,7 +35,6 @@ app.get("/api/notes", function (req, res) {
     res.json(JSON.parse(data));
   });
 });
-
 app.post("/api/notes", function (req, res) {
   //userinput == req.body
   req.body.id = db.length;
@@ -58,6 +57,7 @@ app.delete("/api/notes/:id", function (req, res) {
   const result = db.filter((word) => word.id != req.params.id);
   console.log(result);
 
+  // db.splice(req.params.id, 1)
   fs.writeFile("./db/db.json", JSON.stringify(result), function (err) {
     if (err) {
       return console.log(err);
@@ -73,6 +73,15 @@ app.get("*", function (req, res) {
   // res.send("reservation form")
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
+
+// // data table routes
+// app.get("/api/tables", function (req, res) {
+//   return res.json(tables);
+// });
+
+// app.get("/api/waitlist", function (req, res) {
+//   return res.json(waitlist);
+// });
 
 // port listener
 app.listen(PORT, function () {
